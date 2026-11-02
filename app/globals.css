@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #f3f9ff;
+  --card: #ffffff;
+  --ink: #1f3042;
+  --muted: #6b7f94;
+  --line: #dbe9f7;
+  --accent: #3d9be9;
+  --accent-ink: #ffffff;
+  --shadow: 0 6px 20px -8px rgb(40 90 140 / 0.25);
+}
+.dark {
+  --bg: #0f1925;
+  --card: #172435;
+  --ink: #eaf3fc;
+  --muted: #94a8bc;
+  --line: #243649;
+  --shadow: 0 6px 20px -8px rgb(0 0 0 / 0.6);
+}
+:root[data-palette="candy"] { --accent: #3d9be9; --bg: #f3f9ff; }
+:root[data-palette="mint"] { --accent: #2fbf9b; --bg: #f4fcf9; --line: #dcefe8; }
+:root[data-palette="lavender"] { --accent: #8f7cf0; --bg: #f8f6ff; --line: #e6e0fa; }
+:root[data-palette="sky"] { --accent: #3d9be9; --bg: #f3f9ff; --line: #dbe9f7; }
+:root[data-palette="peach"] { --accent: #ff9150; --bg: #fff8f3; --line: #f5e5d8; }
+.dark[data-palette="candy"] { --bg: #0f1925; }
+.dark[data-palette="mint"] { --bg: #101b19; --card: #182623; --line: #263a36; }
+.dark[data-palette="lavender"] { --bg: #16132a; --card: #201c38; --line: #312b52; }
+.dark[data-palette="sky"] { --bg: #0f1925; --card: #172435; --line: #243649; }
+.dark[data-palette="peach"] { --bg: #1d1510; --card: #2a1f18; --line: #402f24; }
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --font-sans: var(--font-nunito), ui-rounded, system-ui, sans-serif;
+  --shadow-soft: var(--shadow);
+}
+
+html {
+  background: var(--bg);
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+}
+html.dark { color-scheme: dark; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-nunito), ui-rounded, system-ui, sans-serif;
+  min-height: 100dvh;
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
+}
+input, textarea, [contenteditable] { -webkit-user-select: text; user-select: text; }
+input, textarea, select, button { font: inherit; }
+button { cursor: pointer; touch-action: manipulation; }
+
+:focus-visible { outline: 3px solid color-mix(in oklab, var(--accent) 70%, transparent); outline-offset: 2px; border-radius: 12px; }
+
+.card {
+  background: var(--card);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+}
+.field {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 0.9rem;
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  padding: 0.55rem 0.9rem;
+  color: var(--ink);
+}
+.field:focus { outline: 3px solid color-mix(in oklab, var(--accent) 45%, transparent); border-color: var(--accent); }
+.btn {
+  min-height: 44px; padding: 0 1.1rem; border-radius: 9999px; font-weight: 800;
+  display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+  background: var(--accent); color: var(--accent-ink);
+  transition: transform .12s ease, filter .12s ease;
+}
+.btn:active { transform: scale(0.95); }
+.btn-ghost { background: color-mix(in oklab, var(--accent) 14%, var(--card)); color: var(--ink); }
+.btn-danger { background: #ef5b6b; color: #fff; }
+.chip {
+  min-height: 44px; min-width: 44px; padding: 0 .9rem; border-radius: 9999px; font-weight: 700; font-size: .9rem;
+  border: 1.5px solid var(--line); background: var(--card); color: var(--ink);
+  display: inline-flex; align-items: center; justify-content: center; gap: .3rem;
+  transition: transform .1s ease;
+}
+.chip:active { transform: scale(0.94); }
+.chip[aria-pressed="true"], .chip[aria-checked="true"] {
+  background: color-mix(in oklab, var(--accent) 22%, var(--card)); border-color: var(--accent);
+}
+.pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 0px); }
+
+.tint { background: color-mix(in oklab, var(--tint) 24%, var(--card)); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+@keyframes shimmer { 0% { opacity: .55 } 50% { opacity: 1 } 100% { opacity: .55 } }
+.skeleton { background: var(--line); border-radius: 1rem; animation: shimmer 1.4s ease-in-out infinite; }
